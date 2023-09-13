@@ -10,22 +10,39 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController
 {
-    #[Route('/users', name: 'users.index')]
+    /**
+     * This method is used to return all users using filters in JSON format
+     *
+     * @param UserApiQuery $users
+     * @param Request $request
+     * @return void
+     */
+    #[Route('/api/users', name: 'users.index')]
     public function index(UserApiQuery $users, Request $request)
     {
-        return $this->jsonResponse($users->fetchAll());
+        return $this->jsonResponse($users->fetchAll(options: [
+            'is_active' => $request->query->get('is_active'),
+            'is_member' => $request->query->get('is_member'),
+            'last_login_at' => $request->query->get('last_login_at'),
+            'user_type' => $request->query->get('user_type'),
+        ]));
     }
 
-    protected function jsonResponse($data, int $status = 200): Response
+    /**
+     * This method is used to convert the data to JSON
+     *
+     * @param [type] $data
+     * @param integer $status
+     * @return Response
+     */
+    protected function jsonResponse($data): Response
     {
-        $data = array_map(function ($item) {
-            return $item->toArray();
-        }, $data);
-
         return new Response(
-            json_encode($data),
-            $status,
-            ['Content-Type' => 'application/json']
+            json_encode([
+                'data' => array_map(function ($item) {
+                    return $item->toArray();
+                }, $data)
+            ]), 200, ['Content-Type' => 'application/json']
         );
     }
 }

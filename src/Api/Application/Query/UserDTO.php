@@ -2,7 +2,6 @@
 
 namespace API\Application\Query;
 
-use DateTime;
 use DateTimeImmutable;
 
 class UserDTO
@@ -26,19 +25,19 @@ class UserDTO
         return $this->email;
     }
 
-    public function isActive(): bool
+    public function getIsActive(): bool
     {
         return (bool) $this->is_active;
     }
 
-    public function isMember(): bool
+    public function getIsMember(): bool
     {
         return (bool) $this->is_member;
     }
 
-    public function getLastLoginAt(): DateTimeImmutable
+    public function getLastLoginAt(): string|null
     {
-        return $this->last_login_at;
+        return $this->last_login_at?->format('Y-m-d H:i:s');
     }
 
     public function getUserType(): int
@@ -46,15 +45,21 @@ class UserDTO
         return $this->user_type;
     }
 
+    /**
+     * This method is used to convert the class to an array of attributes
+     * Useful when creating a JSON response
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         return [
-            'username' => $this->username,
-            'email' => $this->email,
-            'is_active' => $this->is_active,
-            'is_member' => $this->is_member,
-            'last_login_at' => $this->last_login_at?->format('Y-m-d H:i:s'),
-            'user_type' => $this->user_type
+            'username' => $this->getUsername(),
+            'email' => $this->getEmail(),
+            'is_active' => $this->getIsActive(),
+            'is_member' => $this->getIsMember(),
+            'last_login_at' => $this->getLastLoginAt(),
+            'user_type' => $this->getUserType()
         ];
     }
 }

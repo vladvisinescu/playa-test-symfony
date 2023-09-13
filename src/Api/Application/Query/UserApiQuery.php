@@ -3,19 +3,19 @@
 namespace API\Application\Query;
 
 use API\Domain\User;
-use API\Domain\UserRepository;
+use API\Domain\UserInterface;
 
 class UserApiQuery
 {
     public function __construct(
-        private UserRepository $repository
+        private UserInterface $repository
     ) {}
 
-    public function fetchAll(): array
+    public function fetchAll(array $options): array
     {
-        $results = $this->repository->fetchAll();
+        $results = $this->repository->findWithFilters($options);
 
-        return \array_map(function (User $item) {
+        return array_map(function (User $item) {
             return new UserDTO(
                 $item->getUsername(),
                 $item->getEmail(),

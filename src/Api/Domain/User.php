@@ -43,9 +43,7 @@ class User
             $password,
             $is_active,
             $is_member,
-            DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $last_login_at)
-                ? DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $last_login_at)
-                : null,
+            $last_login_at,
             $user_type
         );
     }
@@ -80,7 +78,7 @@ class User
         return $this->last_login_at;
     }
 
-    public function getUserType(): int
+    public function getUserType(): int|null
     {
         return $this->user_type;
     }

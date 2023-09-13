@@ -29,7 +29,7 @@ services:
 
     API\Application\Query\UserApiQuery:
         arguments:
-            $repository: '@API\Domain\UserRepository'
+            $repository: '@API\Infrastructure\UserRepository'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

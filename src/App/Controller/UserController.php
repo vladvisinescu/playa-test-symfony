@@ -21,21 +21,21 @@ class UserController
     public function index(UserApiQuery $users, Request $request)
     {
         return $this->jsonResponse($users->fetchAll(options: [
-            'is_active' => $request->query->get('is_active'),
-            'is_member' => $request->query->get('is_member'),
-            'last_login_at' => $request->query->get('last_login_at'),
-            'user_type' => $request->query->get('user_type'),
+            'is_active' => (int) $request->query->get('is_active'),
+            'is_member' => (int) $request->query->get('is_member'),
+            'last_login_at' => $request->query->all()['last_login_at'],
+            'user_type' => $request->query->all()['user_type'],
         ]));
     }
 
     /**
      * This method is used to convert the data to JSON
      *
-     * @param [type] $data
+     * @param array $data
      * @param integer $status
      * @return Response
      */
-    protected function jsonResponse($data): Response
+    protected function jsonResponse(array $data): Response
     {
         return new Response(
             json_encode([

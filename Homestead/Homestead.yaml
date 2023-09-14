@@ -1,0 +1,33 @@
+---
+ip: "192.168.56.56"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: ~/Work/apps/
+      to: /home/vagrant/code
+
+sites:
+    - map: playa.test
+      to: /home/vagrant/code/playa-test-symfony/public
+
+databases:
+    - homestead
+
+features:
+    - mariadb: true
+    - ohmyzsh: false
+
+services:
+    - enabled:
+          - "mariadb"
+
+ports:
+   - send: 33060 # MySQL/MariaDB
+     to: 3306

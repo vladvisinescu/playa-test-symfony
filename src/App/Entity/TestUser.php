@@ -6,7 +6,7 @@ use API\Infrastructure\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: "test_users")]
+#[ORM\Table(name: 'test_users')]
 class TestUser
 {
     #[ORM\Id]
